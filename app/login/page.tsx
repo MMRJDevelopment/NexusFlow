@@ -1,36 +1,42 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Label } from '@/components/ui/label'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Loader2, Eye, EyeOff, Zap } from 'lucide-react'
-import { useLoginMutation } from '@/lib/api/authApi'
-import { useAppDispatch } from '@/lib/hooks'
-import { setCredentials } from '@/lib/features/auth/authSlice'
-import Link from 'next/link'
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2, Eye, EyeOff, Zap } from "lucide-react";
+import { useLoginMutation } from "@/lib/api/authApi";
+import { useAppDispatch } from "@/lib/hooks";
+import { setCredentials } from "@/lib/features/auth/authSlice";
+import Link from "next/link";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [login, { isLoading, error }] = useLoginMutation()
-  const dispatch = useAppDispatch()
-  const router = useRouter()
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [login, { isLoading, error }] = useLoginMutation();
+  const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const result = await login({ username, password }).unwrap()
-      dispatch(setCredentials({ user: { username }, token: result.token }))
-      router.push('/products')
+      const result = await login({ username, password }).unwrap();
+      dispatch(setCredentials({ user: { username }, token: result.token }));
+      router.push("/products");
     } catch (err) {
-      console.error('Login failed:', err)
+      console.error("Login failed:", err);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20 p-4">
@@ -43,6 +49,7 @@ export default function LoginPage() {
             <span className="text-xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
               NexusFlow
             </span>
+            <div className="text-4xl text-red-600">Hello world</div>
           </Link>
         </div>
 
@@ -66,13 +73,13 @@ export default function LoginPage() {
                   required
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Input
                     id="password"
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -113,19 +120,27 @@ export default function LoginPage() {
                     Signing in...
                   </>
                 ) : (
-                  'Sign In'
+                  "Sign In"
                 )}
               </Button>
             </form>
 
             <div className="mt-6 text-center text-sm text-muted-foreground">
               <p>Demo credentials:</p>
-              <p>Username: <code className="bg-muted px-1 rounded">mor_2314</code></p>
-              <p>Password: <code className="bg-muted px-1 rounded">83r5^_</code></p>
+              <p>
+                Username:{" "}
+                <code className="bg-muted px-1 rounded">mor_2314</code>
+              </p>
+              <p>
+                Password: <code className="bg-muted px-1 rounded">83r5^_</code>
+              </p>
             </div>
 
             <div className="mt-6 text-center">
-              <Link href="/" className="text-sm text-muted-foreground hover:text-foreground">
+              <Link
+                href="/"
+                className="text-sm text-muted-foreground hover:text-foreground"
+              >
                 ← Back to Home
               </Link>
             </div>
@@ -133,5 +148,5 @@ export default function LoginPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }
